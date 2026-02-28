@@ -54,56 +54,72 @@ export default function OverviewPage() {
     if (!session) return null;
 
     return (
-        <div className="container" style={{ padding: 0 }}>
-            {/* Title */}
-            <h2 className="mb-4">Tổng quan lộ trình học</h2>
+        <div className="container" style={{ padding: '1rem 0' }}>
+            {/* Title Section */}
+            <div className="mb-6">
+                <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.25rem' }}>Tổng quan lộ trình học</h2>
+                <p className="text-muted">Theo dõi tiến triển và kết quả rèn luyện của bạn.</p>
+            </div>
 
             {loading ? (
-                <p className="text-muted text-center mt-4">Đang tính toán thống kê...</p>
+                <div className="card p-12 text-center">
+                    <p className="text-muted">Đang tính toán thống kê...</p>
+                </div>
             ) : (
                 <>
                     {/* Stats Grid */}
-                    <div className="grid-cols-3 mb-4">
+                    <div className="grid-cols-3 mb-8">
                         <div className="stat-card">
-                            <div className="stat-icon" style={{ backgroundColor: '#e0e7ff', color: 'var(--primary)' }}>
-                                <BookOpen size={24} />
+                            <div className="stat-icon" style={{ backgroundColor: '#eef2ff', color: '#4f46e5' }}>
+                                <BookOpen size={28} />
                             </div>
-                            <div>
-                                <p className="text-muted" style={{ fontSize: '0.875rem' }}>Danh Sách Gốc</p>
-                                <h3 style={{ marginBottom: 0 }}>{stats.totalLists} <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>chủ đề</span></h3>
+                            <div style={{ flex: 1 }}>
+                                <p className="text-muted" style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.025em', marginBottom: '4px' }}>Danh Sách Gốc</p>
+                                <div className="flex items-baseline gap-1">
+                                    <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-main)' }}>{stats.totalLists}</span>
+                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>chủ đề</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="stat-card">
-                            <div className="stat-icon" style={{ backgroundColor: '#d1fae5', color: 'var(--success)' }}>
-                                <CheckCircle size={24} />
+                        <div className="stat-card" style={{ borderLeft: '4px solid var(--success)' }}>
+                            <div className="stat-icon" style={{ backgroundColor: '#ecfdf5', color: 'var(--success)' }}>
+                                <CheckCircle size={28} />
                             </div>
-                            <div>
-                                <p className="text-muted" style={{ fontSize: '0.875rem' }}>Đã thuộc</p>
-                                <h3 style={{ marginBottom: 0 }}>{stats.totalCorrect} <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>lượt</span></h3>
+                            <div style={{ flex: 1 }}>
+                                <p className="text-muted" style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.025em', marginBottom: '4px' }}>Đã thuộc</p>
+                                <div className="flex items-baseline gap-1">
+                                    <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--success)' }}>{stats.totalCorrect}</span>
+                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>lượt</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="stat-card">
-                            <div className="stat-icon" style={{ backgroundColor: '#fee2e2', color: 'var(--danger)' }}>
-                                <Brain size={24} />
+                        <div className="stat-card" style={{ borderLeft: '4px solid var(--danger)' }}>
+                            <div className="stat-icon" style={{ backgroundColor: '#fff1f2', color: 'var(--danger)' }}>
+                                <Brain size={28} />
                             </div>
-                            <div>
-                                <p className="text-muted" style={{ fontSize: '0.875rem' }}>Còn quên</p>
-                                <h3 style={{ marginBottom: 0 }}>{stats.totalIncorrect} <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: 'var(--text-muted)' }}>lượt</span></h3>
+                            <div style={{ flex: 1 }}>
+                                <p className="text-muted" style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.025em', marginBottom: '4px' }}>Còn quên</p>
+                                <div className="flex items-baseline gap-1">
+                                    <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--danger)' }}>{stats.totalIncorrect}</span>
+                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>lượt</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Quick Actions / Shortcuts */}
-                    <div className="card">
-                        <h3>Bắt đầu hành động</h3>
-                        <p className="text-muted mb-4">Luyện tập thêm hoặc tạo bộ từ vựng mới để tiếp tục hành trình.</p>
-                        <div className="flex gap-4" style={{ flexWrap: 'wrap' }}>
-                            <button className="btn btn-primary" onClick={() => navigate('/lists-manager')}>
+                    <div className="card" style={{ padding: '2rem', background: 'linear-gradient(to right, #ffffff, #f9fafb)' }}>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Bắt đầu hành động</h3>
+                        <p className="text-muted mb-6" style={{ maxWidth: '600px' }}>
+                            Luyện tập thêm hoặc tạo bộ từ vựng mới để tiếp tục hành trình phản xạ ngôn ngữ của bạn ngay hôm nay.
+                        </p>
+                        <div className="flex gap-4">
+                            <button className="btn btn-primary" onClick={() => navigate('/lists-manager')} style={{ padding: '0.75rem 1.5rem' }}>
                                 Đi tới Danh sách của bạn
                             </button>
-                            <button className="btn btn-secondary" onClick={() => navigate('/history')}>
+                            <button className="btn btn-secondary" onClick={() => navigate('/history')} style={{ padding: '0.75rem 1.5rem' }}>
                                 Xem lại lịch sử
                             </button>
                         </div>
