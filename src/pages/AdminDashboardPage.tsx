@@ -24,7 +24,7 @@ interface Profile {
 type TabType = 'lists' | 'users';
 
 export default function AdminDashboardPage() {
-    const [activeTab, setActiveTab] = useState<TabType>('lists');
+    const [activeTab, setActiveTab] = useState<TabType>('users');
     const [lists, setLists] = useState<ListWithUser[]>([]);
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [loading, setLoading] = useState(true);
@@ -153,18 +153,18 @@ export default function AdminDashboardPage() {
             {/* Sub-tabs Navigation - Balanced & Consistent */}
             <div className="flex gap-4 border-b mb-6">
                 <button
-                    className={`pb-3 px-2 flex items-center gap-2 trans font-bold ${activeTab === 'lists' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-primary'}`}
-                    onClick={() => { setActiveTab('lists'); setSearchTerm(''); }}
-                >
-                    <ListIcon size={18} />
-                    Quản lý Danh sách
-                </button>
-                <button
                     className={`pb-3 px-2 flex items-center gap-2 trans font-bold ${activeTab === 'users' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-primary'}`}
                     onClick={() => { setActiveTab('users'); setSearchTerm(''); }}
                 >
                     <Users size={18} />
                     Quản lý Người dùng
+                </button>
+                <button
+                    className={`pb-3 px-2 flex items-center gap-2 trans font-bold ${activeTab === 'lists' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-primary'}`}
+                    onClick={() => { setActiveTab('lists'); setSearchTerm(''); }}
+                >
+                    <ListIcon size={18} />
+                    Quản lý Danh sách
                 </button>
             </div>
 
