@@ -357,6 +357,7 @@ export default function AdminDashboardPage() {
                                 </div>
                             </div>
                         ))
+                    )}
                 </div>
                 {!loading && (activeTab === 'lists' ? filteredLists : filteredProfiles).length === 0 && (
                     <div className="p-12 text-center text-muted">Không tìm thấy dữ liệu phù hợp.</div>
