@@ -19,7 +19,8 @@ export default function PracticeSessionPage() {
 
     const [vocabularies, setVocabularies] = useState<Vocabulary[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [status, setStatus] = useState<'loading' | 'showing' | 'finished'>('loading');
+    const [status, setStatus] = useState<'loading' | 'countdown' | 'showing' | 'finished'>('loading');
+    const [countdownValue, setCountdownValue] = useState(3);
     const [results, setResults] = useState<{ vocab_id: string; is_remembered: boolean }[]>([]);
 
     // Biến phụ chống click liên tiếp và hỗ trợ lưu db chưa hoàn thành
@@ -82,10 +83,25 @@ export default function PracticeSessionPage() {
         }
 
         setVocabularies(sortedData);
-        setStatus('showing');
+        setCountdownValue(3);
+        setStatus('countdown');
     };
 
-    // Tách riêng logic đếm ngược bằng Timeout độc lập không phụ thuộc vòng đời
+    // Logic Đếm ngược 3-2-1
+    useEffect(() => {
+        if (status === 'countdown') {
+            if (countdownValue > 0) {
+                const timer = setTimeout(() => {
+                    setCountdownValue(prev => prev - 1);
+                }, 1000);
+                return () => clearTimeout(timer);
+            } else {
+                setStatus('showing');
+            }
+        }
+    }, [status, countdownValue]);
+
+    // Tách riêng logic đếm ngược Trả lời tự động (Auto-answer)
     useEffect(() => {
         if (status === 'showing' && vocabularies.length > 0) {
             // Đảm bảo không vượt Out-of-bounds
@@ -297,6 +313,13 @@ export default function PracticeSessionPage() {
             {showFeedback && (
                 <div style={{ position: 'absolute', top: 20, left: 20, fontSize: '1.2rem', color: 'var(--text-muted)' }}>
                     {currentIndex + 1} / {vocabularies.length}
+                </div>
+            )}
+
+            {/* Hiển thị Đếm ngược 3-2-1 */}
+            {status === 'countdown' && (
+                <div key={countdownValue} className="countdown-number">
+                    {countdownValue}
                 </div>
             )}
 

@@ -445,3 +445,29 @@ h3 {
     display: none !important;
   }
 }
+
+/* Animations */
+@keyframes countdownPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  20% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.countdown-number {
+  font-size: 10rem;
+  font-weight: 900;
+  color: var(--danger);
+  animation: countdownPop 1s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
