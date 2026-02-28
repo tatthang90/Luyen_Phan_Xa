@@ -95,7 +95,7 @@ export default function HistoryPage() {
                     </div>
                 ) : (
                     <>
-                        <div style={{ overflowX: 'auto' }}>
+                        <div className="desktop-only" style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                                 <thead>
                                     <tr style={{ borderBottom: '2px solid var(--border-color)' }}>
@@ -132,6 +132,43 @@ export default function HistoryPage() {
                                     })}
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div className="mobile-only">
+                            {sessions.map(s => {
+                                const d = new Date(s.created_at);
+                                const dateStr = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+                                const timeStr = `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`;
+                                const accuracy = calculateAccuracy(s.correct_count, s.total_words);
+                                return (
+                                    <div key={s.id} className="mobile-card">
+                                        <div className="mobile-card-row">
+                                            <span className="mobile-card-label">Thời gian</span>
+                                            <span className="mobile-card-value">{timeStr} - {dateStr}</span>
+                                        </div>
+                                        <div className="mobile-card-row">
+                                            <span className="mobile-card-label">Danh sách</span>
+                                            <span className="mobile-card-value" style={{ color: 'var(--primary)' }}>{s.lists?.name || 'Đã xóa'}</span>
+                                        </div>
+                                        <div className="mobile-card-row">
+                                            <span className="mobile-card-label">Kết quả (Đúng/Sai)</span>
+                                            <span className="mobile-card-value">
+                                                <span style={{ color: 'var(--success)' }}>{s.correct_count}</span>
+                                                <span style={{ margin: '0 4px' }}>/</span>
+                                                <span style={{ color: 'var(--danger)' }}>{s.incorrect_count}</span>
+                                            </span>
+                                        </div>
+                                        <div className="mobile-card-row" style={{ borderBottom: 'none' }}>
+                                            <span className="mobile-card-label">Tỷ lệ chính xác</span>
+                                            <span className="mobile-card-value" style={{
+                                                color: accuracy >= 80 ? 'var(--success)' : accuracy >= 50 ? '#92400e' : 'var(--danger)'
+                                            }}>
+                                                {accuracy}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         {/* Pagination Controls */}

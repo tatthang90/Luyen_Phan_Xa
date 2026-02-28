@@ -235,6 +235,14 @@ h3 {
   max-width: 100%;
 }
 
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+    padding-bottom: 5rem;
+  }
+}
+
 /* Mobile Topbar */
 .mobile-topbar {
   display: none;
@@ -310,6 +318,69 @@ h3 {
 
 .text-muted {
   color: var(--text-muted);
+}
+
+/* Responsive Utilities */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Mobile Card List */
+.mobile-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-card-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.mobile-card-row:last-child {
+  border-bottom: none;
+}
+
+.mobile-card-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.mobile-card-value {
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 /* Grids */

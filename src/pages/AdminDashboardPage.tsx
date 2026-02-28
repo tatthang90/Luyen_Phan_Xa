@@ -190,7 +190,7 @@ export default function AdminDashboardPage() {
             )}
 
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <div style={{ overflowX: 'auto' }}>
+                <div className="desktop-only" style={{ overflowX: 'auto' }}>
                     {loading ? (
                         <div className="text-center py-20 text-muted">
                             <RefreshCw size={32} className="animate-spin mx-auto mb-4 opacity-20" />
@@ -286,11 +286,82 @@ export default function AdminDashboardPage() {
                             </tbody>
                         </table>
                     )}
-                    {!loading && (activeTab === 'lists' ? filteredLists : filteredProfiles).length === 0 && (
-                        <div className="p-12 text-center text-muted">Không tìm thấy dữ liệu phù hợp.</div>
-                    )}
                 </div>
+
+                {/* Mobile view - Cards */}
+                <div className="mobile-only" style={{ padding: '1rem' }}>
+                    {loading ? (
+                        <div className="text-center py-10 text-muted">Đang tải...</div>
+                    ) : activeTab === 'lists' ? (
+                        filteredLists.map((list) => (
+                            <div key={list.id} className="mobile-card">
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Danh sách</span>
+                                    <span className="mobile-card-value">{list.name}</span>
+                                </div>
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Chủ sở hữu</span>
+                                    <span className="mobile-card-value text-xs">{list.profiles?.email || 'Hệ thống'}</span>
+                                </div>
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Loại / Ngày tạo</span>
+                                    <span className="mobile-card-value text-xs">
+                                        {list.type.toUpperCase()} - {new Date(list.created_at).toLocaleDateString('vi-VN')}
+                                    </span>
+                                </div>
+                                <div className="mobile-card-row" style={{ borderBottom: 'none', paddingTop: '1rem' }}>
+                                    <span className="mobile-card-label">Hành động</span>
+                                    <button className="btn btn-danger py-1 px-3" onClick={() => handleDeleteList(list.id, list.name)}>
+                                        <Trash2 size={16} /> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        filteredProfiles.map((profile) => (
+                            <div key={profile.id} className="mobile-card">
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Email</span>
+                                    <span className="mobile-card-value">{profile.email}</span>
+                                </div>
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Vai trò</span>
+                                    <span className="mobile-card-value">
+                                        {profile.is_admin ? (
+                                            <span className="text-primary font-bold">ADMIN</span>
+                                        ) : (
+                                            <span className="text-muted">USER</span>
+                                        )}
+                                    </span>
+                                </div>
+                                <div className="mobile-card-row">
+                                    <span className="mobile-card-label">Tham gia</span>
+                                    <span className="mobile-card-value text-xs">
+                                        {new Date(profile.created_at).toLocaleDateString('vi-VN')}
+                                    </span>
+                                </div>
+                                <div className="mobile-card-row" style={{ borderBottom: 'none', paddingTop: '1rem' }}>
+                                    <span className="mobile-card-label">Hành động</span>
+                                    <div className="flex gap-2">
+                                        <button
+                                            className={`btn py-1 px-3 ${profile.is_admin ? 'btn-secondary' : 'btn-primary'}`}
+                                            onClick={() => toggleAdminStatus(profile.id, profile.is_admin, profile.email)}
+                                        >
+                                            {profile.is_admin ? <ShieldAlert size={16} /> : <ShieldCheck size={16} />}
+                                            {profile.is_admin ? 'Gỡ Admin' : 'Hạ Admin'}
+                                        </button>
+                                        <button className="btn btn-danger py-1 px-3" onClick={() => handleDeleteUser(profile.id, profile.email)}>
+                                            <UserMinus size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                </div>
+                {!loading && (activeTab === 'lists' ? filteredLists : filteredProfiles).length === 0 && (
+                    <div className="p-12 text-center text-muted">Không tìm thấy dữ liệu phù hợp.</div>
+                )}
             </div>
-        </div >
+        </div>
     );
 }
