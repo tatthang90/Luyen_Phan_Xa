@@ -236,25 +236,28 @@ h3 {
 }
 
 @media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
   .main-content {
     margin-left: 0;
     padding: 1rem;
     padding-bottom: 5rem;
   }
+
+  .mobile-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 101;
+    box-shadow: var(--shadow-sm);
+  }
 }
 
-/* Mobile Topbar */
-.mobile-topbar {
-  display: none;
-  background-color: var(--bg-card);
-  border-bottom: 1px solid var(--border-color);
-  padding: 1rem;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 90;
-}
 
 /* Main Container (For content centering) */
 .container {
@@ -376,11 +379,16 @@ h3 {
   font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
+  flex: 0 0 35%;
+  /* Labels take 35% width */
 }
 
 .mobile-card-value {
   font-size: 0.9rem;
   font-weight: 600;
+  flex: 1;
+  text-align: right;
+  word-break: break-word;
 }
 
 /* Grids */
