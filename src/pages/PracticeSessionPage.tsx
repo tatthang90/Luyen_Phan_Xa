@@ -29,6 +29,7 @@ export default function PracticeSessionPage() {
 
     // Settings
     const order = searchParams.get('order') || 'random';
+    const maxItems = parseInt(searchParams.get('maxItems') || '20', 10);
     const showFeedback = searchParams.get('feedback') === 'true';
     const timeLimitStr = searchParams.get('timeLimit');
     const timeLimit = timeLimitStr ? parseInt(timeLimitStr, 10) * 1000 : 2000;
@@ -72,14 +73,26 @@ export default function PracticeSessionPage() {
         }
 
         // Áp dụng sắp xếp/xáo trộn
-        let sortedData = [...rawData];
+        let sortedData = [];
+        const baseData = [...rawData];
+
         if (order === 'reverse') {
-            sortedData.reverse();
+            sortedData = baseData.reverse();
         } else if (order === 'random') {
+            sortedData = baseData;
             for (let i = sortedData.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [sortedData[i], sortedData[j]] = [sortedData[j], sortedData[i]];
             }
+        } else if (order === 'random_repeat') {
+            // Chế độ ngẫu nhiên lặp lại: Bốc ngẫu nhiên cho đến khi đủ maxItems
+            for (let i = 0; i < maxItems; i++) {
+                const randomIndex = Math.floor(Math.random() * baseData.length);
+                // Clone object để tránh các vấn đề về tham chiếu nếu cần (ở đây Vocabulary đơn giản nên không nhất thiết)
+                sortedData.push({ ...baseData[randomIndex] });
+            }
+        } else {
+            sortedData = baseData;
         }
 
         setVocabularies(sortedData);
@@ -135,8 +148,9 @@ export default function PracticeSessionPage() {
 
         const currentVocab = vocabularies[currentIndex];
 
-        // Tránh nhấn đúp cùng một từ làm currentIndex bị tăng vọt 2 đơn vị
-        if (resultsRef.current.some(r => r.vocab_id === currentVocab.id)) return;
+        // Tránh nhấn đúp cùng một câu làm currentIndex bị tăng vọt 2 đơn vị
+        // Kiểm tra dựa trên số lượng kết quả đã lưu so với vị trí hiện tại
+        if (resultsRef.current.length > currentIndex) return;
 
         const newResult = { vocab_id: currentVocab.id, is_remembered: isRemembered };
 
